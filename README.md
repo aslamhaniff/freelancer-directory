@@ -268,7 +268,7 @@ FreelancerDirectory/
 └── 📄 .gitignore                           # Git ignore rules
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Running Unit Tests
 ```bash
