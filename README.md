@@ -305,15 +305,15 @@ public async Task GetAllAsync_ReturnsAllFreelancers()
 ## 📱 Screenshots
 
 ### API Documentation (Swagger)
-![Swagger UI](docs/images/swagger-ui.png)
+![Swagger UI](docs/images/swagger-ui.jpg)
 *Comprehensive API documentation with interactive testing*
 
 ### Modern Web Interface
-![Web Interface](docs/images/web-ui-dashboard.png)
+![Web Interface](docs/images/web-ui-dashboard.jpg)
 *Clean, modern dashboard with glassmorphism design*
 
 ### Search Functionality
-![Search Feature](docs/images/search-functionality.png)
+![Search Feature](docs/images/search-functionality.jpg)
 *Fast, intuitive search with real-time results*
 
 ##  Key Features Demonstration
