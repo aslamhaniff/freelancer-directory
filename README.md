@@ -277,28 +277,36 @@ dotnet test --logger "console;verbosity=detailed" --verbosity quiet --nologo
 ```
 
 ### Test Coverage
-The project includes unit tests for:
-- **Domain entities** and business logic
-- **Repository operations** with in-memory database
-- **API controllers** with mock dependencies
-- **Integration tests** for end-to-end scenarios
+The project includes comprehensive integration tests for:
+- **API endpoints** - Full HTTP request/response testing with WebApplicationFactory
+- **CRUD operations** - Create, Search, and Update functionality validation
+- **Database integration** - In-memory Entity Framework Core database testing
+- **JSON serialization** - Request/response data validation and parsing
+- **Status code verification** - HTTP response code testing (201, 200, 204)
+- **End-to-end scenarios** - Complete application stack testing
 
 ### Sample Test Structure
 ```csharp
 [Fact]
-public async Task GetAllAsync_ReturnsAllFreelancers()
+public async Task CreateFreelancer_ShouldReturnCreatedFreelancer()
 {
     // Arrange
-    var mockRepo = new Mock<IFreelancerRepository>();
-    var expectedFreelancers = GetTestFreelancers();
-    mockRepo.Setup(repo => repo.GetAllAsync())
-           .ReturnsAsync(expectedFreelancers);
+    var freelancer = new FreelancerDto
+    {
+        Username = "john_doe",
+        Email = "john@example.com",
+        PhoneNumber = "1234567890",
+        Skillsets = new List<string> { "C#", "ASP.NET Core" },
+        Hobbies = new List<string> { "Cycling", "Reading" }
+    };
 
     // Act
-    var result = await mockRepo.Object.GetAllAsync();
+    var response = await _httpClient.PostAsJsonAsync("/api/freelancer", freelancer);
 
     // Assert
-    Assert.Equal(expectedFreelancers.Count, result.Count);
+    response.StatusCode.Should().Be(HttpStatusCode.Created);
+    var createdFreelancer = await response.Content.ReadFromJsonAsync<FreelancerDto>();
+    createdFreelancer.Username.Should().Be("john_doe");
 }
 ```
 
