@@ -404,7 +404,7 @@ public async Task<List<FreelancerDto>> SearchAsync(string query)
 ### Built with passion for clean code and modern architecture
 
 **Developed by**: Aslam Osama Husainy bin Abdul Haniff  
-**For**: ETIQA IT Developer Assessment  
+**For**: .NET Backend Developer Assessment  
 **Date**: August 2025 
 
 *This project demonstrates expertise in .NET development, Clean Architecture, modern web technologies, and professional software development practices.*
