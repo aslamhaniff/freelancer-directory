@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer Directory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab:hover:not(.active) {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .freelancer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .freelancer-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .freelancer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .freelancer-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .freelancer-card p {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .skills-tags,
+        .hobbies-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .hobby-tag {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+
+        .card-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .freelancer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Freelancer Directory</h1>
+            <p>Complete Developer Network - Find the perfect talent for your projects</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('list', this)">📋 List Freelancers</button>
+            <button class="tab" onclick="showTab('add', this)">➕ Add Freelancer</button>
+            <button class="tab" onclick="showTab('update', this)">✏️ Update Freelancer</button>
+            <button class="tab" onclick="showTab('search', this)">🔍 Search</button>
+        </div>
+
+        <!-- List Tab -->
+        <div id="list" class="tab-content active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>All Freelancers</h2>
+                <button class="btn btn-primary" onclick="loadFreelancers()">🔄 Refresh</button>
+            </div>
+            <div id="freelancers-container">
+                <div class="loading">Loading freelancers...</div>
+            </div>
+        </div>
+
+        <!-- Add Tab -->
+        <div id="add" class="tab-content">
+            <h2>Add New Freelancer</h2>
+            <form id="add-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="add-username">Username</label>
+                        <input type="text" id="add-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-email">Email</label>
+                        <input type="email" id="add-email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="add-phone">Phone Number</label>
+                    <input type="tel" id="add-phone" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="add-skillsets">Skillsets (comma-separated)</label>
+                        <textarea id="add-skillsets" placeholder="JavaScript, React, Node.js, MongoDB"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-hobbies">Hobbies (comma-separated)</label>
+                        <textarea id="add-hobbies" placeholder="Photography, Gaming, Reading"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">✨ Add Freelancer</button>
+            </form>
+        </div>
+
+        <!-- Update Tab -->
+        <div id="update" class="tab-content">
+            <h2>Update Freelancer</h2>
+            <div class="form-group">
+                <label for="update-id">Freelancer ID</label>
+                <input type="text" id="update-id" placeholder="Enter freelancer ID">
+                <button type="button" class="btn btn-secondary" onclick="loadFreelancerForUpdate()"
+                    style="margin-top: 10px;">🔍 Load Freelancer</button>
+            </div>
+
+            <form id="update-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="update-username">Username</label>
+                        <input type="text" id="update-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-email">Email</label>
+                        <input type="email" id="update-email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="update-phone">Phone Number</label>
+                    <input type="tel" id="update-phone" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="update-skillsets">Skillsets (comma-separated)</label>
+                        <textarea id="update-skillsets"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-hobbies">Hobbies (comma-separated)</label>
+                        <textarea id="update-hobbies"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">💾 Update Freelancer</button>
+            </form>
+        </div>
+
+        <!-- Search Tab -->
+        <div id="search" class="tab-content">
+            <h2>Search Freelancers</h2>
+            <div class="search-container">
+                <input type="text" id="search-query" placeholder="Search by username or email...">
+                <button class="btn btn-primary" onclick="searchFreelancers()">🔍 Search</button>
+            </div>
+            <div id="search-results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:5296/api/freelancer'; // Update this to match your API URL
+
+        // Tab Management
+        function showTab(tabName, clickedElement = null) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activate the correct tab button
+            if (clickedElement) {
+                clickedElement.classList.add('active');
+            } else {
+                // Find the tab button by its onclick attribute or content
+                const tabs = document.querySelectorAll('.tab');
+                tabs.forEach(tab => {
+                    if (tab.onclick && tab.onclick.toString().includes(`showTab('${tabName}')`)) {
+                        tab.classList.add('active');
+                    }
+                });
+                
+                // Fallback: activate by index
+                if (tabName === 'list') document.querySelector('.tab:nth-child(1)').classList.add('active');
+                else if (tabName === 'add') document.querySelector('.tab:nth-child(2)').classList.add('active');
+                else if (tabName === 'update') document.querySelector('.tab:nth-child(3)').classList.add('active');
+                else if (tabName === 'search') document.querySelector('.tab:nth-child(4)').classList.add('active');
+            }
+
+            // Load data if needed
+            if (tabName === 'list') {
+                loadFreelancers();
+            }
+        }
+
+        // Utility Functions
+        function showMessage(message, type = 'success') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = type;
+            alertDiv.textContent = message;
+
+            const container = document.querySelector('.container');
+            container.insertBefore(alertDiv, container.firstChild.nextSibling);
+
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        function formatSkillsAndHobbies(items) {
+            if (!items || items.length === 0) return '';
+            return items.map(item => typeof item === 'string' ? item : item.name || item.title || item).join(', ');
+        }
+
+        // API Functions - FIXED VERSION
+        async function apiCall(url, options = {}) {
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+
+                // Check if request was successful
+                if (!response.ok) {
+                    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+                    try {
+                        // Try to get error details from response body
+                        const errorData = await response.text();
+                        if (errorData) {
+                            errorMessage += ` - ${errorData}`;
+                        }
+                    } catch (e) {
+                        // Ignore if we can't parse the error body
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                // Check if response has content
+                const contentType = response.headers.get('content-type');
+                const contentLength = response.headers.get('content-length');
+                
+                // If no content or content-length is 0, return null (successful but no data)
+                if (contentLength === '0' || response.status === 204) {
+                    return null;
+                }
+
+                // If response has JSON content, parse it
+                if (contentType && contentType.includes('application/json')) {
+                    const text = await response.text();
+                    return text ? JSON.parse(text) : null;
+                }
+
+                // For non-JSON responses, return null if successful
+                return null;
+            } catch (error) {
+                console.error('API call failed:', error);
+                throw error;
+            }
+        }
+
+        // Load all freelancers
+        async function loadFreelancers() {
+            const container = document.getElementById('freelancers-container');
+            container.innerHTML = '<div class="loading">Loading freelancers...</div>';
+
+            try {
+                const freelancers = await apiCall(API_BASE_URL);
+                displayFreelancers(freelancers, container);
+            } catch (error) {
+                container.innerHTML = `<div class="error">Failed to load freelancers: ${error.message}</div>`;
+            }
+        }
+
+        // Display freelancers in grid
+        function displayFreelancers(freelancers, container) {
+            if (!freelancers || freelancers.length === 0) {
+                container.innerHTML = '<div class="loading">No freelancers found.</div>';
+                return;
+            }
+
+            const grid = document.createElement('div');
+            grid.className = 'freelancer-grid';
+
+            freelancers.forEach(freelancer => {
+                const card = document.createElement('div');
+                card.className = 'freelancer-card';
+                card.innerHTML = `
+                    <h3>${freelancer.username}</h3>
+                    <p><strong>📧 Email:</strong> ${freelancer.email}</p>
+                    <p><strong>📱 Phone:</strong> ${freelancer.phoneNumber || 'N/A'}</p>
+                    <p><strong>Skills:</strong></p>
+                    <div class="skills-tags">
+                        ${(freelancer.skillsets || []).map(skill =>
+                    `<span class="tag">${typeof skill === 'string' ? skill : skill.name || skill}</span>`
+                ).join('')}
+                    </div>
+                    <p><strong>Hobbies:</strong></p>
+                    <div class="hobbies-tags">
+                        ${(freelancer.hobbies || []).map(hobby =>
+                    `<span class="tag hobby-tag">${typeof hobby === 'string' ? hobby : hobby.name || hobby}</span>`
+                ).join('')}
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-secondary" onclick="editFreelancer('${freelancer.id}')">✏️ Edit</button>
+                        <button class="btn btn-danger" onclick="deleteFreelancer('${freelancer.id}')">🗑️ Delete</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            container.innerHTML = '';
+            container.appendChild(grid);
+        }
+
+        // Add new freelancer - FIXED VERSION
+        document.getElementById('add-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                username: document.getElementById('add-username').value,
+                email: document.getElementById('add-email').value,
+                phoneNumber: document.getElementById('add-phone').value,
+                skillsets: document.getElementById('add-skillsets').value.split(',').map(s => s.trim()).filter(s => s),
+                hobbies: document.getElementById('add-hobbies').value.split(',').map(h => h.trim()).filter(h => h)
+            };
+
+            try {
+                // Call API - even if it returns null/no content, it means success
+                await apiCall(API_BASE_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                });
+
+                // If we get here, the API call was successful
+                showMessage('✅ Freelancer added successfully!');
+                document.getElementById('add-form').reset();
+
+                // Switch to list tab and refresh
+                showTab('list');
+                
+            } catch (error) {
+                showMessage('❌ Failed to add freelancer: ' + error.message, 'error');
+            }
+        });
+
+        // Load freelancer for update
+        async function loadFreelancerForUpdate() {
+            const id = document.getElementById('update-id').value.trim();
+            if (!id) {
+                showMessage('❌ Please enter a freelancer ID', 'error');
+                return;
+            }
+
+            try {
+                const freelancer = await apiCall(`${API_BASE_URL}/${id}`);
+
+                if (!freelancer) {
+                    showMessage('❌ Freelancer not found', 'error');
+                    return;
+                }
+
+                document.getElementById('update-username').value = freelancer.username;
+                document.getElementById('update-email').value = freelancer.email;
+                document.getElementById('update-phone').value = freelancer.phoneNumber || '';
+                document.getElementById('update-skillsets').value = formatSkillsAndHobbies(freelancer.skillsets);
+                document.getElementById('update-hobbies').value = formatSkillsAndHobbies(freelancer.hobbies);
+
+                document.getElementById('update-form').style.display = 'block';
+            } catch (error) {
+                showMessage('❌ Failed to load freelancer: ' + error.message, 'error');
+            }
+        }
+
+        // Update freelancer - FIXED VERSION
+        document.getElementById('update-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('update-id').value.trim();
+            const formData = {
+                id: id,
+                username: document.getElementById('update-username').value,
+                email: document.getElementById('update-email').value,
+                phoneNumber: document.getElementById('update-phone').value,
+                skillsets: document.getElementById('update-skillsets').value.split(',').map(s => s.trim()).filter(s => s),
+                hobbies: document.getElementById('update-hobbies').value.split(',').map(h => h.trim()).filter(h => h)
+            };
+
+            try {
+                await apiCall(API_BASE_URL, {
+                    method: 'PUT',
+                    body: JSON.stringify(formData)
+                });
+
+                showMessage('✅ Freelancer updated successfully!');
+                document.getElementById('update-form').reset();
+                document.getElementById('update-form').style.display = 'none';
+                document.getElementById('update-id').value = '';
+            } catch (error) {
+                showMessage('❌ Failed to update freelancer: ' + error.message, 'error');
+            }
+        });
+
+        // Delete freelancer - FIXED VERSION
+        async function deleteFreelancer(id) {
+            if (!confirm('Are you sure you want to delete this freelancer?')) {
+                return;
+            }
+
+            try {
+                await apiCall(`${API_BASE_URL}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                showMessage('✅ Freelancer deleted successfully!');
+                loadFreelancers(); // Refresh the list
+            } catch (error) {
+                showMessage('❌ Failed to delete freelancer: ' + error.message, 'error');
+            }
+        }
+
+        // Edit freelancer (switch to update tab with pre-filled data)
+        async function editFreelancer(id) {
+            document.getElementById('update-id').value = id;
+            showTab('update');
+
+            // Auto-load the freelancer data
+            setTimeout(() => {
+                loadFreelancerForUpdate();
+            }, 100);
+        }
+
+        // Search freelancers
+        async function searchFreelancers() {
+            const query = document.getElementById('search-query').value.trim();
+            if (!query) {
+                showMessage('❌ Please enter a search query', 'error');
+                return;
+            }
+
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = '<div class="loading">Searching...</div>';
+
+            try {
+                const results = await apiCall(`${API_BASE_URL}/search?query=${encodeURIComponent(query)}`);
+                displayFreelancers(results, resultsContainer);
+            } catch (error) {
+                resultsContainer.innerHTML = `<div class="error">Search failed: ${error.message}</div>`;
+            }
+        }
+
+        // Search on Enter key
+        document.getElementById('search-query').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchFreelancers();
+            }
+        });
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFreelancers();
+        });
+    </script>
+</body>
+
+</html>
