@@ -377,20 +377,11 @@ public async Task<List<FreelancerDto>> SearchAsync(string query)
 - **GitHub Actions** for CI/CD pipeline
 - **Docker containers** for containerized deployment
 
-## Contributing
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add some amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
 ### Development Guidelines
 - Follow **Clean Architecture** principles
 - Write **unit tests** for new features
 - Update **documentation** for API changes
 - Use **conventional commits** for commit messages
-
 
 ## Acknowledgments
 
