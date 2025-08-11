@@ -1,4 +1,4 @@
-# 🚀 Freelancer Directory - Complete Developer Network
+# Freelancer Directory - Complete Developer Network
 
 [![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat&logo=dotnet)](https://dotnet.microsoft.com/)
 [![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-8.0-512BD4?style=flat)](https://asp.net/)
