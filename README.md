@@ -377,18 +377,11 @@ public async Task<List<FreelancerDto>> SearchAsync(string query)
 - **GitHub Actions** for CI/CD pipeline
 - **Docker containers** for containerized deployment
 
-### Development Guidelines
-- Follow **Clean Architecture** principles
-- Write **unit tests** for new features
-- Update **documentation** for API changes
-- Use **conventional commits** for commit messages
-
 ## Acknowledgments
 
 - **Clean Architecture** concept by Robert C. Martin
 - **ASP.NET Core** team for the excellent framework
 - **Entity Framework Core** team for robust ORM
-- **ETIQA IT** for the inspiring assessment challenge
 
 ---
 
