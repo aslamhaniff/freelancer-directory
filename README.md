@@ -324,6 +324,9 @@ public async Task CreateFreelancer_ShouldReturnCreatedFreelancer()
 ![Search Feature](docs/images/search-functionality.jpg)
 *Fast, intuitive search with real-time results*
 
+### Add Functionality
+![Add Feature](docs/images/add-functionality.jpg)
+
 ##  Key Features Demonstration
 
 ### 1. Clean Architecture Implementation
