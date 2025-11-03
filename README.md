@@ -19,7 +19,6 @@ A modern, full-stack freelancer directory application built with **Clean Archite
 - [Project Structure](#project-structure)
 - [Testing](#testing)
 - [Screenshots](#screenshots)
-- [Contributing](#contributing)
 
 ##  Overview
 
