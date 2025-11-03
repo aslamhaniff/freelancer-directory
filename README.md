@@ -393,4 +393,4 @@ public async Task<List<FreelancerDto>> SearchAsync(string query)
 **Developed by**: Aslam Osama Husainy bin Abdul Haniff   
 **Date**: August 2025 
 
-*This project demonstrates expertise in .NET development, Clean Architecture, modern web technologies, and professional software development practices.*
+*This beginner side project explores .NET development, Clean Architecture, and modern web technologies as part of my never ending learning journey.*
